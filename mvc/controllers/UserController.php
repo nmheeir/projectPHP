@@ -66,19 +66,22 @@ class UserController extends BaseController
     }
 
     public function order($isCompleted = 0) {
-        $content = $isCompleted == 0 ? "notCompletedOrders" : "completedOrders";
-
-        $shipperId = $_SESSION["user_id"];
+        // print_r($_SESSION);
+        $shipperId = $_SESSION["user"]["id"];
         $orders = $this->orderModel->getOrder([
             'select' => '*',
             'order_by' => 'id asc',
             'where' => "shipper_id = {$shipperId} AND is_completed = {$isCompleted}"
         ]);
 
-
+        $data = [
+            'orders' => $orders->data,
+            'state' => $isCompleted
+        ];
         $this->loadView("frontend.layout.masterlayout", [
-            'content' => $content,
-            'orders' => $orders->data
+            'data' => $data,
+            'page' => 'users',
+            'action' => "orderList",
         ]);
     }
 }

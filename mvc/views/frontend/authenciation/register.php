@@ -57,7 +57,7 @@
                     <span></span>
                     Submit
                 </button>
-                <a href="login" class="link-info">Đăng nhập</a>
+                <a href="http://localhost/Project/TEST_3/Authenciation/login" class="link-info">Đăng nhập</a>
             </div>
         </form>
     </div>

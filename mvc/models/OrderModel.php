@@ -39,7 +39,12 @@ class OrderModel extends BaseModel {
         'order_by' => 'id asc'
     ]) {
         $data = $this->get(self::TABLE_NAME, $option);
-        return new DataView(true, $data, "Ok");
+        if(count($data) > 0) {
+            return new DataView(true, $data, "Ok");
+        }
+        else {
+            return new DataView(false, null, "NO DATA");
+        }
     }
 
     public function saveOrder(array $data) {

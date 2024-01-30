@@ -21,13 +21,20 @@ class AuthenciationController extends BaseController {
             ];
             $_SESSION["session_login"] = $sessionLogin;
             // kiểm tra
-            $data = $this->userModel->checkLogin($username, $password);
+            $data = $this->userModel->login($username, $password);
             if($data->isSuccess)
             { 
-                $_SESSION["user_id"] = $data->data["id"];
-                $_SESSION["user_username"] = $data->data["username"];
-                $_SESSION["user_role"] = $data->data["role_id"];
-                $_SESSION['last_regeneration'] = time();
+                // thiết lập session
+                $sessionUserInfo = [
+                    "id" => $data->data["id"],
+                    "username" =>  $data->data["username"],
+                    "role_id" => $data->data["role_id"]
+                ];
+                $_SESSION["user"] = $sessionUserInfo;
+                // thiết lập cookie
+                $cookie_user_id = $data->data["id"];
+                setcookie("user_id", $cookie_user_id, time() + (86400 * 30), "/");
+
                 // redirect
                 header("Location: http://localhost/Project/TEST_3/User/order"); 
                 exit; 
@@ -38,6 +45,17 @@ class AuthenciationController extends BaseController {
                 exit;
             }
         }
+    }
+
+    public function logout() {
+        if (isset($_COOKIE['user_id'])) {
+            unset($_COOKIE['user_id']); 
+            setcookie('user_id', '', -1, '/'); 
+        }
+        if(isset($_SESSION["user"])) {
+            unset($_SESSION["user"]);
+        }
+        header("Location: login"); 
     }
 
     public function register() {
@@ -77,7 +95,34 @@ class AuthenciationController extends BaseController {
         }
         
     public function checkLogin() {
-
+        if(isset($_SESSION["user"])) {
+            return true;
+        }
+        else {
+            if(!isset($_COOKIE["user_id"])) {
+                return false;
+            }
+            else {
+                echo $_COOKIE["user_id"];
+                $data = $this->userModel->getUser([
+                    'where' => "id = '{$_COOKIE["user_id"]}'"
+                ]);
+                if($data->isSuccess)
+                { 
+                    // thiết lập session
+                    $sessionUserInfo = [
+                        "id" => $data->data[0]["id"],
+                        "username" =>  $data->data[0]["username"],
+                        "role_id" => $data->data[0]["role_id"]
+                    ];
+                    $_SESSION["user"] = $sessionUserInfo;
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
     }
 
 }

@@ -1,4 +1,16 @@
+<?
+$url = isset($_GET['url']) ? $_GET['url'] : '';
+$urlParts = explode('/', $url);
 
+// Nếu có ít nhất 2 thành phần trong URL, và thành phần đầu tiên là 'Authenciation'
+if (count($urlParts) >= 2 && $urlParts[0] === 'Authenciation') {
+    // Lấy giá trị của tham số 'id'
+    $id = isset($_GET['id']) ? $_GET['id'] : '';
+} else {
+    // Trường hợp khác
+  
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,8 +18,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../public/css/login.css">
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css"/>
+    <base href="http://localhost/Project/TEST_3/" />
+    <link rel="stylesheet" href="../TEST_3/public/css/login.css">
+    <link rel="stylesheet" href="../TEST_3/bootstrap/css/bootstrap.css"/>
     <style>
         /* Thêm CSS cho hiển thị thông báo lỗi */
         .error-message {
@@ -44,12 +57,12 @@
                     <span></span>
                     Submit
                 </button>
-                <a href="register" class="link-info">Đăng kí</a>
+                <a href="http://localhost/Project/TEST_3/Authenciation/register" class="link-info">Đăng kí</a>
             </div>
         </form>
 </div>
 
-<script src="../bootstrap/js/bootstrap.js"></script>
-<script src="../bootstrap/js/bootstrap.bundle.min.js"></script> 
+<script src="../TEST_3/bootstrap/js/bootstrap.js"></script>
+<script src="../TEST_3/bootstrap/js/bootstrap.bundle.min.js"></script> 
 </body>
 </html>

@@ -47,7 +47,7 @@ class UserModel extends BaseModel {
         return $this->save(self::TABLE_NAME, $data);
     }
 
-    public function checkLogin($username, $password) {
+    public function login($username, $password) {
         $user = $this->getUser([
             'where' => "username = '{$username}'" 
         ]);

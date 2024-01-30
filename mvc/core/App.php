@@ -1,5 +1,7 @@
+
 <?
 class App {
+    const BASE_SOURCE = 'Project/TEST_3';
     private $controller = "Welcome";
     private $action = "index";
     private $params = [];
@@ -33,6 +35,7 @@ class App {
         // Params
         $this->params = $arr ? array_values($arr) : [];
 
+
         call_user_func_array([$this->controller, $this->action], $this->params);
     }
 
@@ -41,7 +44,7 @@ class App {
             return explode("/", filter_var(trim($_GET["url"], "/")));
         }
         else {
-            return ["Welcome", "login"];
+            return ["Welcome", "index"];
         }
     }
 }
