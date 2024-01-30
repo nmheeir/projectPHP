@@ -13,6 +13,9 @@
             <?php
             if (count($orders) > 0) {
                 foreach ($orders as $order) {
+                    $doneButton = "<button onclick='completedOrderUpdate({$order['id']}, {$order['is_completed']})' class='btn btn-info' tabindex='-1' role='button' aria-disabled='true'>Đã làm xong</button>";
+                    $undoneButton = "<button onclick='completedOrderUpdate({$order['id']}, {$order['is_completed']})' class='btn btn-danger' tabindex='-1' role='button' aria-disabled='true'>Chưa làm xong</button>";
+                    $statusButton = $order['is_completed'] == 0 ? $doneButton : $undoneButton;
                     echo "
                         <div class='card col-lg-3 col-md-4 col-sm-5 text-bg-secondary border-{$state} m-2 p-0'>
                             <iframe 
@@ -26,6 +29,7 @@
                             </div>
                             <div class='card-body'>
                                 <a href='Order/orderDetail/{$order['id']}' class='btn btn-primary' tabindex='-1' role='button' aria-disabled='true'>Chi tiết</a>
+                                {$statusButton}
                             </div>
                         </div>
                     ";
@@ -37,26 +41,5 @@
         </div>
     </div>
 </div>
-<script>
-    function completedOrderUpdate(orderId) {
-        // Dữ liệu bạn muốn gửi lên server
-        const dataToSend = {
-            id: orderId,
-            is_completed: 0,
-        };
-        console.log(JSON.stringify(dataToSend))
-        // Sử dụng Fetch API để thực hiện PUT request
-        fetch(`http://localhost/Project/TEST_3/Order/updateOrder`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSend),
-        })
-        .then()
-        .catch(error => {
-            console.error('Error:', error);
-            // Xử lý lỗi (nếu cần)
-        });
-    }
+<script src="../TEST_3/public/js/fetchUpdateStatusOrder.js">
 </script>

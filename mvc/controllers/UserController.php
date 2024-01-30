@@ -4,12 +4,18 @@ class UserController extends BaseController
 {
     private $userModel;
     private $orderModel;
+    private $companyModel;
+    private $roleModel;
     public function __construct()
     {
         $this->loadModel('UserModel');
         $this->loadModel('OrderModel');
+        $this->loadModel('CompanyModel');
+        $this->loadModel('RoleModel');
         $this->userModel = new UserModel;
         $this->orderModel = new OrderModel;
+        $this->companyModel = new CompanyModel;
+        $this->roleModel = new RoleModel;
     }
 
     public function show($id = null)
@@ -63,6 +69,23 @@ class UserController extends BaseController
                 'userLayOff' => $userLayOff
             ]);
         }
+    }
+
+    public function home() 
+    {
+        $id = $_SESSION["user"]["id"];
+        $user = $this->userModel->getUser(
+            [
+                'where' => "id = '{$id}'"
+            ]
+        )->data[0];
+        $user["role"] = $this->roleModel->getRoleName($user["role_id"])->data;
+        $user["company"] = $this->companyModel->getCompanyName($user["company_id"])->data;
+        $this->loadView("frontend.layout.masterlayout", [
+            'data'=> $user,
+            'page' => 'users',
+            'action' => "home",
+        ]);
     }
 
     public function order($isCompleted = 0) {

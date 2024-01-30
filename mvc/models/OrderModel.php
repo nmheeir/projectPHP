@@ -43,7 +43,7 @@ class OrderModel extends BaseModel {
             return new DataView(true, $data, "Ok");
         }
         else {
-            return new DataView(false, null, "NO DATA");
+            return new DataView(false, [], "NO DATA");
         }
     }
 
