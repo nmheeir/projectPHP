@@ -81,4 +81,25 @@ class UserModel extends BaseModel {
         $this->save(self::TABLE_NAME, $newUser);
         return new DataView(true, null, "Ok");
     }
+
+    function getUserWithRoleAndCompany() {
+        return $this->custom(self::TABLE_NAME, "
+        SELECT
+            u.id AS user_id,
+            u.username,
+            u.email,
+            u.fullname AS user_fullname,
+            c.company_name,
+            r.name AS role_name
+        FROM
+            users u
+        JOIN
+            company c ON u.company_id = c.id
+        JOIN
+            role r ON u.role_id = r.id
+        WHERE
+            u.id = 1;
+        ");
+
+    }
 }

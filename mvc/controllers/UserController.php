@@ -3,17 +3,14 @@ require_once "../TEST_3/mvc/controllers/BaseController.php";
 class UserController extends BaseController
 {
     private $userModel;
-    private $orderModel;
     private $companyModel;
     private $roleModel;
     public function __construct()
     {
         $this->loadModel('UserModel');
-        $this->loadModel('OrderModel');
         $this->loadModel('CompanyModel');
         $this->loadModel('RoleModel');
         $this->userModel = new UserModel;
-        $this->orderModel = new OrderModel;
         $this->companyModel = new CompanyModel;
         $this->roleModel = new RoleModel;
     }
@@ -81,30 +78,24 @@ class UserController extends BaseController
         )->data[0];
         $user["role"] = $this->roleModel->getRoleName($user["role_id"])->data;
         $user["company"] = $this->companyModel->getCompanyName($user["company_id"])->data;
-        $this->loadView("frontend.layout.masterlayout", [
+        $this->loadView("frontend.layout.{$_SESSION['user']['role_id']}layout", [
             'data'=> $user,
             'page' => 'users',
             'action' => "home",
         ]);
     }
 
-    public function order($isCompleted = 0) {
-        // print_r($_SESSION);
-        $shipperId = $_SESSION["user"]["id"];
-        $orders = $this->orderModel->getOrder([
-            'select' => '*',
-            'order_by' => 'id asc',
-            'where' => "shipper_id = {$shipperId} AND is_completed = {$isCompleted}"
-        ]);
+    public function companyMember() {
+        $user = $this->userModel->getUser(
+            [
+                'where' => "company_id = '{$_SESSION['user']['company_id']}'",
+            ]
+        )->data;
 
-        $data = [
-            'orders' => $orders->data,
-            'state' => $isCompleted
-        ];
-        $this->loadView("frontend.layout.masterlayout", [
-            'data' => $data,
+        $this->loadView("frontend.layout.{$_SESSION['user']['role_id']}layout", [
+            'data'=> $user,
             'page' => 'users',
-            'action' => "orderList",
+            'action' => "companyMember",
         ]);
     }
 }

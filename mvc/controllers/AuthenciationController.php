@@ -28,7 +28,8 @@ class AuthenciationController extends BaseController {
                 $sessionUserInfo = [
                     "id" => $data->data["id"],
                     "username" =>  $data->data["username"],
-                    "role_id" => $data->data["role_id"]
+                    "role_id" => $data->data["role_id"],
+                    "company_id" => $data->data["company_id"]
                 ];
                 $_SESSION["user"] = $sessionUserInfo;
                 // thiết lập cookie
@@ -36,7 +37,7 @@ class AuthenciationController extends BaseController {
                 setcookie("user_id", $cookie_user_id, time() + (86400 * 30), "/");
 
                 // redirect
-                header("Location: http://localhost/Project/TEST_3/User/order"); 
+                header("Location: http://localhost/Project/TEST_3/User/home"); 
                 exit; 
             } 
             else {
@@ -113,7 +114,8 @@ class AuthenciationController extends BaseController {
                     $sessionUserInfo = [
                         "id" => $data->data[0]["id"],
                         "username" =>  $data->data[0]["username"],
-                        "role_id" => $data->data[0]["role_id"]
+                        "role_id" => $data->data[0]["role_id"],
+                        "company_id" => $data->data[0]["company_id"]
                     ];
                     $_SESSION["user"] = $sessionUserInfo;
                     return true;

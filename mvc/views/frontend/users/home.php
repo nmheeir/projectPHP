@@ -37,10 +37,10 @@
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">Phone</p>
+                <p class="mb-0">Chức vụ</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-white mb-0">(097) 234-5678</p>
+                <p class="text-white mb-0"><? echo $data["role"] ?></p>
               </div>
             </div>
             <hr>

@@ -1,17 +1,19 @@
 <?php
    $latitude = $data['order']['latitude'];
-   $longitude = $data['order']['longitdue'];
-   $doneButton = "<button onclick='completedOrderUpdate({$data['order']['id']}, {$data['order']['is_completed']})' class='btn btn-info' tabindex='-1' role='button' aria-disabled='true'>Đã làm xong</button>";
-   $undoneButton = "<button onclick='completedOrderUpdate({$data['order']['id']}, {$data['order']['is_completed']})' class='btn btn-danger' tabindex='-1' role='button' aria-disabled='true'>Chưa làm xong</button>";
-   $statusButton = $data['order']['is_completed'] == 0 ? $doneButton : $undoneButton;
+   $longitude = $data['order']['longitude'];
+
+   require_once "../TEST_3/mvc/views/frontend/orders/statusButton.php";
+   $statusButton = StatusButton($data['order']);
 ?>
 
 <div class="d-flex flex-column flex-md-row">
-    <div class="flex-grow-1">
-        <iframe 
-            name="mapframe" style="width: 100%; height: 100vh"
-            src="https://www.google.com/maps?saddr=&output=embed&f=d&z=10&daddr=<?php echo "{$latitude},{$longitude}"; ?>">
-        </iframe>
+    <!-- Phần trái (bản đồ) -->
+    <div class="col-md-6 col-12 d-md-flex vh-100 -50">
+    <iframe 
+        name="mapframe" style="width: 100%; height: 100%"
+        src="https://www.google.com/maps?z=15&saddr=&output=embed&f=d&z=15&daddr=<?php echo "{$latitude},{$longitude}"; ?>">
+    </iframe>
+
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -36,14 +38,18 @@
         </script>
     </div>
 
-    <div class="flex-grow-1 text-white p-4">
+    <!-- Phần phải (Thông tin chi tiết) -->
+    <div class="col-md-6 col-12 h-50 text-white p-4">
         <h2>Thông tin chi tiết</h2>
         <p><strong>Latitude:</strong> <?php echo $latitude; ?></p>
         <p><strong>Longitude:</strong> <?php echo $longitude; ?></p>
         <p><strong>Thông tin về đơn hàng:</strong> <?php echo $data['order']['description']; ?></p>
         <p><strong>Địa chỉ đơn hàng:</strong> <?php echo $data['order']['address']; ?></p>
-        <? echo $statusButton ?>
+        <p><strong>Nhân viên giao hàng:</strong> <?php echo $data['order']['shipper_name']; ?></p>
+        <?php echo $statusButton; ?>
     </div>
 </div>
+
+
 
 <script src="../TEST_3/public/js/fetchUpdateStatusOrder.js">

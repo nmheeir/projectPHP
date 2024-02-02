@@ -40,7 +40,6 @@ class BaseModel extends Database {
      */
     public function save(string $table, array $data = [])
     {
-        echo $data["username"];
         $this->connect = $this->getConnect();
 
         $values = [];
@@ -81,4 +80,16 @@ class BaseModel extends Database {
         $this->_query($this->connect, $sql);
     }
 
+    public function custom(string $table, $sql) {
+        $this->connect = $this->getConnect();
+        $query = $this->_query($this->connect, $sql);
+
+        $data = [];
+
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            array_push($data, $row);
+        }
+
+        return $data;
+    }
 }

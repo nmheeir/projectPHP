@@ -5,7 +5,7 @@ class WelcomeController extends BaseController {
     public function index() {
         $authController = new AuthenciationController();
         if($authController->checkLogin()) {
-            header("Location: User/order");
+            header("Location: Order/userOrderList");
         }
         else {
             header("Location: Authenciation/login");

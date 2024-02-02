@@ -10,6 +10,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../TEST_3/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="../TEST_3/public/css/user.css"/>
+    <link rel="stylesheet" href="../TEST_3/public/css/base.css"/>
     <link rel="stylesheet" href="../TEST_3/node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <style>
         .my-gradient {
@@ -40,41 +41,40 @@
                     </li>
                     <li>
                         <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="bi bi-car-front"></i> <span class="ms-1 d-none d-sm-inline">Đơn hàng của bạn</span> </a>
+                            <i class="bi bi-car-front"></i> <span class="ms-1 d-none d-sm-inline">Đơn hàng của bạn</span></a>
                         <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="User/order/0" class="nav-link px-0"> <span class="d-none d-sm-inline">Chưa hoàn thành</span></a>
+                                <a href="Order/userOrderList/0" class="nav-link px-0"> <span class="d-none d-sm-inline">Chưa hoàn thành</span><i class="bi bi-bag-x-fill"></i></a>
                             </li>
                             <li>
-                                <a href="User/order/1" class="nav-link px-0"> <span class="d-none d-sm-inline">Đã hoàn thành</span></a>
+                                <a href="Order/userOrderList/1" class="nav-link px-0"> <span class="d-none d-sm-inline">Đã hoàn thành</span><i class="bi bi-bag-check-fill"></i></a>
                             </li>
                             <li>
-                                <a href="User/order/2" class="nav-link px-0"> <span class="d-none d-sm-inline">Quá hạn</span></a>
+                                <a href="Order/userOrderList/2" class="nav-link px-0"> <span class="d-none d-sm-inline">Quá hạn</span><i class="bi bi-calendar2-x"></i></a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-                    </li>
-                    <li>
                         <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a>
-                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Đơn hàng của công ty</span></a>
+                        <ul class="collapse show nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                                <a href="Order/companyOrderList/0" class="nav-link px-0"> <span class="d-none d-sm-inline">Chưa hoàn thành</span><i class="bi bi-bag-x-fill"></i></a>
+                            </li>
+                            <li class="w-100">
+                                <a href="Order/companyOrderList/1" class="nav-link px-0"> <span class="d-none d-sm-inline">Đã hoàn thành</span><i class="bi bi-bag-check-fill"></i></a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                                <a href="Order/companyOrderList/2" class="nav-link px-0"> <span class="d-none d-sm-inline">Quá hạn</span><i class="bi bi-calendar2-x"></i></a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
+                            <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Chức năng</span> </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
+                                <a href="Order/addOrder" class="nav-link px-0"> <span class="d-none d-sm-inline">Thêm đơn hàng</span></a>
                             </li>
                             <li>
                                 <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
@@ -88,8 +88,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
+                        <a href="User/companyMember" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Nhân viên công ty</span> </a>
                     </li>
                 </ul>
                 <hr>
