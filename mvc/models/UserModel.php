@@ -51,17 +51,19 @@ class UserModel extends BaseModel {
         $user = $this->getUser([
             'where' => "username = '{$username}'" 
         ]);
-        if($user->isSuccess) {
-            if(password_verify($password, $user->data[0]["hash_password"])) {
-                return new DataView(true, $user->data[0], "login ok");
+        if ($user->isSuccess) {
+            $userData = $user->data[0];
+            if (password_verify($password, $userData["hash_password"])) {
+                if ($userData["active"] == 0) {
+                    return new DataView(false, null, "Tài khoản đã bị vô hiệu hóa");
+                }
+                return new DataView(true, $userData, "Đăng nhập thành công");
+            } else {
+                return new DataView(false, null, "Mật khẩu không đúng");
             }
-            else {
-                return new DataView(false, null, "WRONG PASSWORD");
-            }
-        }
-        else {
+        } else {
             return new DataView(false, null, $user->message);
-        }
+        }        
     }
 
     public function registerUser($username, $password, $fullname, $company_id) {

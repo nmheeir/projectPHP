@@ -27,7 +27,7 @@
             <div style='{$style}' class='d-flex align-items-center m-2 p-2'>
                 <div class='image m-2'><img src='../TEST_3/public/upload/Kiki.webp' alt='...' class='rounded-circle' style='height: 60px; width: 60px'></div>
                 <div class='text'>
-                    <a href='#' class='text-decoration-none link'>
+                    <a href='User/detail/{$user['id']}' class='text-decoration-none link'>
                         <h3 class='h5'>{$user['fullname']}</h3>
                     </a>
                     <small>{$user['username']}</small>

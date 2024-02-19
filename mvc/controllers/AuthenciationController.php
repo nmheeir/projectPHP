@@ -20,7 +20,7 @@ class AuthenciationController extends BaseController {
                 "password" => $password
             ];
             $_SESSION["session_login"] = $sessionLogin;
-            // kiểm tra
+            // kiểm tra login
             $data = $this->userModel->login($username, $password);
             if($data->isSuccess)
             { 
@@ -35,7 +35,6 @@ class AuthenciationController extends BaseController {
                 // thiết lập cookie
                 $cookie_user_id = $data->data["id"];
                 setcookie("user_id", $cookie_user_id, time() + (86400 * 30), "/");
-
                 // redirect
                 header("Location: http://localhost/Project/TEST_3/User/home"); 
                 exit; 

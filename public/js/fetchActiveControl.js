@@ -1,11 +1,11 @@
-function completedOrderUpdate(orderId, isCompleted) {
+function activeUpdate(userId, activeUpdate) {
     // Dữ liệu bạn muốn gửi lên server
     const dataToSend = {
-        id: orderId,
-        is_completed: isCompleted == 0 ? 1 : 0,
+        id: userId,
+        active: activeUpdate
     };
     // Sử dụng Fetch API để thực hiện PUT request
-    fetch(`http://localhost/Project/TEST_3/Order/updateOrder`, {
+    fetch(`http://localhost/Project/TEST_3/User/activeControl`, {
     method: 'PUT',
     headers: {
         'Content-Type': 'application/json',

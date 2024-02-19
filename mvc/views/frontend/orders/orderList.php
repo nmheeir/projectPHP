@@ -22,7 +22,7 @@
     <div class="container-lg py-4">
         <div class="row justify-content-center g-2">
             <h3 class="text-white text-center">
-                Công việc cần làm hôm nay
+                Các đơn hàng
             </h3>
 
             <?php
@@ -54,5 +54,20 @@
         </div>
     </div>
 </div>
-<script src="../TEST_3/public/js/fetchUpdateStatusOrder.js">
+<script src="../TEST_3/public/js/fetchUpdateStatusOrder.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentUrl = window.location.href;
+        const matchResult = currentUrl.match(/userOrderList\/(\d+)/);
+        const numberAfterUserOrderList = matchResult ? matchResult[1] : null;
+        const h3Element = document.querySelector("h3.text-center");
+        var header;
+        if(numberAfterUserOrderList[0] == 0) header = "cần hoàn thành"; 
+        else if (numberAfterUserOrderList[0] == 1) header = "đã hoàn thành";
+        else header = "đã quá hạn"
+        
+        if (h3Element) {
+            h3Element.textContent = `Các đơn hàng ${header}`;
+        }
+    });
 </script>

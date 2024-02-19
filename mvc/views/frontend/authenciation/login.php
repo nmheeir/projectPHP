@@ -1,16 +1,4 @@
-<?
-$url = isset($_GET['url']) ? $_GET['url'] : '';
-$urlParts = explode('/', $url);
 
-// Nếu có ít nhất 2 thành phần trong URL, và thành phần đầu tiên là 'Authenciation'
-if (count($urlParts) >= 2 && $urlParts[0] === 'Authenciation') {
-    // Lấy giá trị của tham số 'id'
-    $id = isset($_GET['id']) ? $_GET['id'] : '';
-} else {
-    // Trường hợp khác
-  
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">

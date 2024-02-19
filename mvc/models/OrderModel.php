@@ -51,4 +51,7 @@ class OrderModel extends BaseModel {
         return $this->save(self::TABLE_NAME, $data);
     }
 
+    public function customOrder($sql) {
+        return $this->custom(self::TABLE_NAME, $sql);
+    }
 }

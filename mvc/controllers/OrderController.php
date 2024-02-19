@@ -11,26 +11,20 @@ class OrderController extends BaseController
         $this->orderModel = new OrderModel;
         $this->userModel = new UserModel;
     }
-
-    public function index()
-    {
-        return $this->loadView('', []);
-    }
-
-    public function show()
-    {
-        $order = $this->orderModel->getOrder(
-            []
-        );
-
-        return $this->loadView('frontend.orders.show', [
-            "orders" => $order
-        ]);
-    }
-
     public function save()
     {
-        return $this->loadView('frontend.orders.save');
+        $newOrder = json_decode(file_get_contents("php://input"), true);
+        if ($newOrder !== null) {
+            // Dữ liệu đã được nhận thành công
+            $this->orderModel->saveOrder($newOrder);
+        } else {
+            // Đối với một số lý do nào đó, không thể giải mã JSON
+            echo "Failed to decode JSON data";
+        }
+    }
+
+    public function getOrder($option) {
+        return $this->orderModel->getOrder($option);
     }
 
     public function orderDetail($id) {
@@ -64,9 +58,10 @@ class OrderController extends BaseController
         }
     }
 
-    public function userOrderList($isCompleted = 0) {
-        // print_r($_SESSION);
-        $shipperId = $_SESSION["user"]["id"];
+    public function userOrderList($isCompleted = 0, $shipperId = null) {
+        if(!isset($shipperId)) {
+            $shipperId = $_SESSION["user"]["id"];
+        }
         $orders = $this->orderModel->getOrder([
             'select' => '*',
             'order_by' => 'id asc',
@@ -88,7 +83,9 @@ class OrderController extends BaseController
         // print_r($_SESSION);
         $roleId = $_SESSION["user"]["role_id"];
         if($roleId > 2) {
-            echo "alert('Hello! I am an alert box!')";
+            echo "alert('Bạn không có đủ quyền để vào chức năng này')";
+            header("Location: /Project/TEST_3/User/home");
+            exit;
         };
         $orders = $this->orderModel->getOrder([
             'select' => '*',
@@ -108,17 +105,7 @@ class OrderController extends BaseController
         ]);
     }
 
-    public function addOrder() {    
-        if(isset($_POST['btnSubmit'])) {
-            $this->orderModel->saveOrder([
-                'company_id'=> $_SESSION['user']['company_id'],
-                'shipper_id'=> $_POST['shipper_id'],
-                'description'=> $_POST['description'],
-                'latitude'=> $_POST['latitude'],
-                'longitude'=> $_POST['longitude'],
-                'address'=> $_POST['address'],
-            ]);
-        }
+    public function addOrder() {  
         $shipperList = $this->userModel->getUser([
             'where' => "role_id = 3 AND company_id = 1",
             'select' => 'id, fullname'

@@ -20,9 +20,10 @@ class BaseModel extends Database {
         $select = $options['select'] ?? '*';
         $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
         $order_by = isset($options['order_by']) ? 'ORDER BY ' . $options['order_by'] : '';
+        $group_by = isset($options['group_by']) ? 'GROUP BY ' . $options['group_by'] : '';
         $limit = isset($options['offset']) && isset($options['limit']) ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
 
-        $sql = "SELECT $select FROM `$table` $where $order_by $limit";
+        $sql = "SELECT $select FROM `$table` $where $order_by $limit $group_by";
         $query = $this->_query($this->connect, $sql);
 
         $data = [];
@@ -58,15 +59,12 @@ class BaseModel extends Database {
                 WHERE id = {$id}";
         } else {
             $columns = implode(',', array_keys($data));
-            print_r($data);
-            echo "<br>";
             foreach ($data as $key => $value) {
                 $values[] = "'$value'";
             }
             // Insert new record
             $columns = implode(',', array_keys($data));
             $sql = "INSERT INTO {$table} ({$columns}) VALUES (" . implode(',', $values) . ")";
-            echo $sql;
         }
 
         $this->_query($this->connect, $sql);
