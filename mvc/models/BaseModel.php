@@ -24,6 +24,7 @@ class BaseModel extends Database {
         $limit = isset($options['offset']) && isset($options['limit']) ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
 
         $sql = "SELECT $select FROM `$table` $where $order_by $limit $group_by";
+
         $query = $this->_query($this->connect, $sql);
 
         $data = [];
@@ -78,7 +79,7 @@ class BaseModel extends Database {
         $this->_query($this->connect, $sql);
     }
 
-    public function custom(string $table, $sql) {
+    public function custom($sql) {
         $this->connect = $this->getConnect();
         $query = $this->_query($this->connect, $sql);
 
@@ -87,7 +88,6 @@ class BaseModel extends Database {
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
             array_push($data, $row);
         }
-
         return $data;
     }
 }
