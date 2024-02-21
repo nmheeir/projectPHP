@@ -2,9 +2,9 @@
 
 class Database {
     private $DB_HOST = "localhost";
-    private $DB_NAME = "db_ct07";
-    private $DB_USER = "admin_db_ct07";
-    private $DB_PASS = "1";
+    private $DB_NAME = "projectphp";
+    private $DB_USER = "root";
+    private $DB_PASS = "mysql";
 
     public function __construct() {
 
