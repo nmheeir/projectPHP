@@ -10,7 +10,7 @@
     <!-- Phần trái (bản đồ) -->
     <div class="col-md-6 col-12 d-md-flex vh-100 -50">
     <iframe 
-        name="mapframe" style="width: 100%; height: 100%"
+        name="mapframe" style="width: 100%; height: 100%; padding: 25px"
         src="https://www.google.com/maps?z=15&saddr=&output=embed&f=d&z=15&daddr=<?php echo "{$latitude},{$longitude}"; ?>">
     </iframe>
 
