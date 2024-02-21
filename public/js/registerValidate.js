@@ -8,6 +8,20 @@ function validateUsername() {
     }
 }
 
+function validateEmail() {
+    var email = document.getElementsByName('email')[0].value;
+    var emailError = document.getElementById('emailError');
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        emailError.innerHTML = 'Địa chỉ email không hợp lệ';
+    } else {
+        emailError.innerHTML = '';
+    }
+}
+
+
+
 function validatePassword() {
     var password = document.getElementsByName('password')[0].value;
     var passwordError = document.getElementById('passwordError');
@@ -33,13 +47,15 @@ function validateForm() {
     // Kiểm tra tất cả các trường và trả về true nếu hợp lệ, false nếu không hợp lệ
     validateUsername();
     validatePassword();
+    validateEmail();
     validateConfirmPassword();
 
     var usernameError = document.getElementById('usernameError').innerHTML;
     var passwordError = document.getElementById('passwordError').innerHTML;
+    var emailError = document.getElementById('email').innerHTML;
     var confirmPasswordError = document.getElementById('confirmPasswordError').innerHTML;
 
-    if (usernameError || passwordError || confirmPasswordError) {
+    if (usernameError || passwordError || confirmPasswordError || emailError) {
         return false; // Form không hợp lệ
     }
 
