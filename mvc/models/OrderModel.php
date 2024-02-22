@@ -48,10 +48,37 @@ class OrderModel extends BaseModel {
     }
 
     public function saveOrder(array $data) {
+        if(isset($data["is_completed"])) {
+            if($data["is_completed"] == 1) {
+                $data["completed_at"] = date('Y-m-d H:i:s', time());
+            }
+            else {
+                $data["completed_at"] = NULL;
+            }
+        }
         return $this->save(self::TABLE_NAME, $data);
     }
 
-    public function customOrder($sql) {
-        return $this->custom(self::TABLE_NAME, $sql);
+    public function countOrder($id) {
+        $sql = "
+        SELECT
+            0 AS is_completed,
+            COUNT(*) AS total_orders
+        FROM
+            `orders`
+        WHERE
+            shipper_id = '{$id}'
+            AND is_completed = 0
+        UNION
+        SELECT
+            1 AS is_completed,
+            COUNT(*) AS total_orders
+        FROM
+            `orders`
+        WHERE
+            shipper_id = '{$id}'
+            AND is_completed = 1
+        ";
+        return $this->custom($sql);
     }
 }

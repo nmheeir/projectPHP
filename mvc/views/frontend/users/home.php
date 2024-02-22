@@ -9,8 +9,6 @@
     else {
       $activeControllerButton = "<button type='button' class='btn btn-secondary w-25 m-1' onclick='activeUpdate({$user['id']}, 1)'>Bỏ chặn</button>";
     }
-    
-    
     $buttons = "
       <a type='button' class='btn btn-secondary w-25 m-1' href='User/deleteUser/{$user['id']}'>Sa thải</a>
       {$activeControllerButton}

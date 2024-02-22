@@ -1,10 +1,9 @@
 <?
 require_once "../TEST_3/mvc/controllers/BaseController.php";
-require_once "../TEST_3/mvc/controllers/AuthenciationController.php";
+require_once "../TEST_3/mvc/inc/checkLogin.php";
 class WelcomeController extends BaseController {
     public function index() {
-        $authController = new AuthenciationController();
-        if($authController->checkLogin()) {
+        if(checkLogin()) {
             header("Location: Order/userOrderList");
         }
         else {

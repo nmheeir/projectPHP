@@ -52,4 +52,4 @@
 
 
 
-<script src="../TEST_3/public/js/fetchUpdateStatusOrder.js">
+<script src="../TEST_3/public/js/fetchUpdateOrder.js">

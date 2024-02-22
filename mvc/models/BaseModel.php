@@ -4,10 +4,6 @@ require "../TEST_3/mvc/models/DataView.php";
 class BaseModel extends Database {
     protected $connect;
 
-    public function __construct() {
-
-    }
-
     public function _query($conn, $sql) {
         return $conn->query($sql);
     }
@@ -68,6 +64,7 @@ class BaseModel extends Database {
         }
 
         $this->_query($this->connect, $sql);
+        return $this->connect->lastInsertId();
     }
 
     public function delete(string $table, $id) {
@@ -78,7 +75,7 @@ class BaseModel extends Database {
         $this->_query($this->connect, $sql);
     }
 
-    public function custom(string $table, $sql) {
+    public function custom(string $sql) {
         $this->connect = $this->getConnect();
         $query = $this->_query($this->connect, $sql);
 
@@ -90,4 +87,5 @@ class BaseModel extends Database {
 
         return $data;
     }
+
 }

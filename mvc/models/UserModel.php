@@ -66,9 +66,17 @@ class UserModel extends BaseModel {
         }        
     }
 
-    public function registerUser($username, $password, $fullname, $company_id) {
+    public function getUserByUsername($username) {
         $checkIsExitsUsername = $this->getUser(["where" => "username = '{$username}'"]);
         if($checkIsExitsUsername->isSuccess) {
+            return new DataView(true, $checkIsExitsUsername , "USERNAME đã tồn tại");
+        }
+        else {
+            return new DataView(false, null , "USERNAME không tồn tại");
+        }
+    }
+    public function registerUser($username, $password, $fullname, $company_id, $roleId = 3) {
+        if($this->getUserByUsername($username)->isSuccess) {
             return new DataView(false, null, "USERNAME đã tồn tại");
         }
 
@@ -78,30 +86,11 @@ class UserModel extends BaseModel {
             'password' => $password,
             'fullname' => $fullname,
             'company_id' => $company_id,
-            'hash_password' => $hashedPassword
+            'hash_password' => $hashedPassword,
+            'role_id' => $roleId
         ];
-        $this->save(self::TABLE_NAME, $newUser);
-        return new DataView(true, null, "Ok");
+        $newUserId = $this->save(self::TABLE_NAME, $newUser);
+        return new DataView(true, $newUserId, "Ok");
     }
 
-    function getUserWithRoleAndCompany() {
-        return $this->custom(self::TABLE_NAME, "
-        SELECT
-            u.id AS user_id,
-            u.username,
-            u.email,
-            u.fullname AS user_fullname,
-            c.company_name,
-            r.name AS role_name
-        FROM
-            users u
-        JOIN
-            company c ON u.company_id = c.id
-        JOIN
-            role r ON u.role_id = r.id
-        WHERE
-            u.id = 1;
-        ");
-
-    }
 }

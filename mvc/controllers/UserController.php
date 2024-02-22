@@ -26,7 +26,7 @@ class UserController extends BaseController
             ]
         )->data[0];
         $user["role"] = $this->roleModel->getRoleName($user["role_id"])->data;
-        $user["company"] = $this->companyModel->getCompanyName($user["company_id"])->data;
+        $user["company"] = $this->companyModel->getCompanyInfo($user["company_id"])->data["company_name"];
         $this->loadView("frontend.layout.{$_SESSION['user']['role_id']}layout", [
             'data'=> ['user' => $user],
             'page' => 'users',
@@ -56,28 +56,9 @@ class UserController extends BaseController
             ]
         )->data[0];
         $user["role"] = $this->roleModel->getRoleName($user["role_id"])->data;
-        $user["company"] = $this->companyModel->getCompanyName($user["company_id"])->data;
-        $orderCount = $this->orderModel->customOrder(
-            "
-            SELECT
-                0 AS is_completed,
-                COUNT(*) AS total_orders
-            FROM
-                orders
-            WHERE
-                shipper_id = '{$id}'
-                AND is_completed = 0
-            UNION
-            SELECT
-                1 AS is_completed,
-                COUNT(*) AS total_orders
-            FROM
-                orders
-            WHERE
-                shipper_id = '{$id}'
-                AND is_completed = 1;
-            "
-        );
+        $user["company"] = $this->companyModel->getCompanyInfo($user["company_id"])->data["company_name"];
+        $orderCount = $this->orderModel->countOrder($id);
+        
         $this->loadView("frontend.layout.{$_SESSION['user']['role_id']}layout", [
             'data'=> ['user' => $user, 'order' => $orderCount],
             'page' => 'users',

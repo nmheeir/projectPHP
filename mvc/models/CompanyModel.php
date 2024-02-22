@@ -6,15 +6,35 @@ class CompanyModel extends BaseModel {
     public function __construct() {
 
     }
-    public function getCompanyName($id) {
-        try {
-            $companyName = $this->get(self::TABLE_NAME, [
-                'where' => "id = '{$id}'"
-            ])[0]["company_name"];
-            return new DataView(true, $companyName, "Ok");
+    public function getCompanyInfo($id) {
+        $companyInfo = $this->get(self::TABLE_NAME, [
+            'where' => "id = '{$id}'"
+        ]);
+        if($companyInfo) {
+            return new DataView(true, $companyInfo[0], "Ok");
         }
-        catch(Exception  $e) {
-            return new DataView(false, "", $e->getMessage());
+        else {
+            return new DataView(false, null, "Mã công ty sai hoặc không tồn tại");
         }
+    }
+
+    public function registerCompany($companyName) {
+        // Kiểm tra tên công ty có tồn tại hay chưa
+        $companyInfo = $this->get(self::TABLE_NAME, [
+            'where' => "company_name = '{$companyName}'"
+        ]);
+        if($companyInfo) {
+            return new DataView(false, null, "Tên công ty đã tồn tại");
+        }
+        else {
+            $dataCompany = [
+                'company_name' => $companyName,
+            ];
+            $companyId = $this->save('company', $dataCompany);
+            if ($companyId) {
+                return new DataView(true, $companyId, "");
+            }
+        }
+
     }
 }

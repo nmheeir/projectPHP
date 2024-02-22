@@ -19,23 +19,19 @@
 </head>
 <body>
     <div class="login-box">
-        <h2>Đăng kí</h2>
-        <form method="post" action="http://localhost/Project/TEST_3/Authenciation/register">
+        <h2>Đăng kí công ty mới</h2>
+        <form method="post" action="http://localhost/Project/TEST_3/Authenciation/registerCompany">
             <div class="user-box">
-                <input type="text" name="username" required oninput="validateUsername()" <?if(isset($_SESSION["session_register"])) echo "value={$_SESSION['session_register']['username']}"?>>
+                <input type="text" name="username" required oninput="validateUsername()">
                 <label>Username</label>
                 <div id="usernameError" class="error-message"></div>
             </div>
             <div class="user-box">
-                <input type="text" name="fullname" required <?if(isset($_SESSION["session_register"])) echo "value={$_SESSION['session_register']['fullname']}"?>>
+                <input type="text" name="fullname" required>
                 <label>Tên đầy đủ của bạn</label>
             </div>
             <div class="user-box">
-                <input type="text" name="company_id" required <?if(isset($_SESSION["session_register"])) echo "value={$_SESSION['session_register']['company_id']}"?>>
-                <label>Nhập mã công ty của bạn</label>
-            </div>
-            <div class="user-box">
-                <input type="password" name="password" required oninput="validatePassword()" <?if(isset($_SESSION["session_register"])) echo "value={$_SESSION['session_register']['password']}"?>>
+                <input type="password" name="password" required oninput="validatePassword()" >
                 <label>Mật khẩu</label>
                 <div id="passwordError" class="error-message"></div>
             </div>
@@ -44,10 +40,14 @@
                 <label>Nhập lại mật khẩu</label>
                 <div id="confirmPasswordError" class="error-message"></div>
             </div>
+            <div class="user-box">
+                <input type="text" name="company_name" required>
+                <label>Nhập tên công ty của bạn</label>
+            </div>
             <?
-                if(isset($_SESSION["error_register"])) {
-                    echo "<div class='error-message'>{$_SESSION["error_register"]}</div>";
-                    unset($_SESSION["error_register"]);   
+                if(isset($_SESSION["error_registerCompany"])) {
+                    echo "<div class='error-message'>{$_SESSION["error_registerCompany"]}</div>";
+                    unset($_SESSION["error_registerCompany"]);   
                 }   
             ?>
             <div class="d-flex justify-content-around align-items-center">
@@ -60,10 +60,8 @@
                 </button>
                 <a href="http://localhost/Project/TEST_3/Authenciation/login" class="link-info">Đăng nhập</a>
             </div>
-            <div class="d-flex justify-content-around align-items-center mt-2">
-                <a href="http://localhost/Project/TEST_3/Authenciation/registerCompany" class="link-info">Đăng kí công ty của bạn</a>
-            </div>
         </form>
+        <p>Khi bạn đăng kí công ty mới thì thông tin tài khoản bạn đã đăng kí cũng chính là tài khoản master của công ty</p>
     </div>
     <script src="../public/js/registerValidate.js"></script>
 </body>

@@ -16,9 +16,8 @@ function fetchAddOrder() {
     body: JSON.stringify(order),
     })
     .then(() => {
-        location.reload()
+        showToast("đã thêm đơn hàng thành công")
     })
-    location.reload()
     .catch(error => {
         console.error('Error:', error);
         // Xử lý lỗi (nếu cần)

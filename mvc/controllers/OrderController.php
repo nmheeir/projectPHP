@@ -47,16 +47,6 @@ class OrderController extends BaseController
         ]);
     }
 
-    public function updateOrder() {
-        $orderUpdateData = json_decode(file_get_contents("php://input"), true);
-        if ($orderUpdateData !== null) {
-            // Dữ liệu đã được nhận thành công
-            $this->orderModel->saveOrder($orderUpdateData);
-        } else {
-            // Đối với một số lý do nào đó, không thể giải mã JSON
-            echo "Failed to decode JSON data";
-        }
-    }
 
     public function userOrderList($isCompleted = 0, $shipperId = null) {
         if(!isset($shipperId)) {
@@ -116,5 +106,28 @@ class OrderController extends BaseController
             'page' => 'orders',
             'action' => "addOrder",
         ]);
+    }
+
+    public function updateOrder($id) {
+        $shipperList = $this->userModel->getUser([
+            'where' => "role_id = 3 AND company_id = 1",
+            'select' => 'id, fullname'
+        ])->data;
+        $orderDetail = $this->orderModel->getOrder([
+            'select' => "*",
+            'where' => "id = {$id}"
+        ]);
+
+        if($orderDetail->isSuccess) {
+            $this->loadView("frontend.layout.{$_SESSION['user']['role_id']}layout", [
+                'data' => ['shipperList' => $shipperList, 'orderId' => $id, 'orderDetail' => $orderDetail->data],
+                'page' => 'orders',
+                'action' => "addOrder",
+            ]);
+        }
+        else {
+            $this->loadView("_404.php");
+        }
+
     }
 }

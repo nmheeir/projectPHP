@@ -10,7 +10,6 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-
     .des {
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -54,7 +53,7 @@
         </div>
     </div>
 </div>
-<script src="../TEST_3/public/js/fetchUpdateStatusOrder.js"></script>
+<script src="../TEST_3/public/js/fetchUpdateOrder.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const currentUrl = window.location.href;

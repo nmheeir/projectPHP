@@ -37,6 +37,11 @@
     color: var(--text-color);
     text-align: center;
   }
+
+  .login-box p {
+    color: var(--text-color);
+    margin-top: 10px;
+  }
   
   .login-box .user-box {
     position: relative;

@@ -2,10 +2,13 @@
 require_once "../TEST_3/mvc/controllers/BaseController.php";
 class AuthenciationController extends BaseController {
     private $userModel;
+    private $companyModel;
     public function __construct()
     {
         $this->loadModel('UserModel');
+        $this->loadModel("CompanyModel");
         $this->userModel = new UserModel;
+        $this->companyModel = new CompanyModel;
     }
 
     public function login() {
@@ -79,51 +82,73 @@ class AuthenciationController extends BaseController {
             }
             else {
                 // Sử dụng hàm registerUser từ class User để đăng ký người dùng mới
-                $checkRegister =  $this->userModel->registerUser($username, $password, $fullname, $company_id);
-                
-                    // Kiểm tra kết quả đăng ký
-                    if ($checkRegister->isSuccess) {
-                        header("Location: login");
-                        unset($_SESSION["error_register"]);
-                        exit;
-                    } else {
-                        $_SESSION["error_register"] = $checkRegister->message;
+                $checkCompanyExist = $this->companyModel->getCompanyInfo($company_id);
+                if(!$checkCompanyExist->isSuccess) {
+                    $_SESSION["error_register"] = $checkCompanyExist->message;
+                }
+                else {
+                    $checkRegister =  $this->userModel->registerUser($username, $password, $fullname, $company_id);
+                        // Kiểm tra kết quả đăng ký
+                        if ($checkRegister->isSuccess) {
+                            header("Location: login");
+                            unset($_SESSION["error_register"]);
+                            exit;
+                        } else {
+                            if(!$checkRegister->isSuccess) {
+                                $_SESSION["error_register"] = $checkRegister->message;
+                            }
+                        }
                     }
                 }
             }
             $this->loadView('frontend.authenciation.register');
         }
-        
-    public function checkLogin() {
-        if(isset($_SESSION["user"])) {
-            return true;
-        }
-        else {
-            if(!isset($_COOKIE["user_id"])) {
-                return false;
-            }
-            else {
-                echo $_COOKIE["user_id"];
-                $data = $this->userModel->getUser([
-                    'where' => "id = '{$_COOKIE["user_id"]}'"
-                ]);
-                if($data->isSuccess)
-                { 
-                    // thiết lập session
-                    $sessionUserInfo = [
-                        "id" => $data->data[0]["id"],
-                        "username" =>  $data->data[0]["username"],
-                        "role_id" => $data->data[0]["role_id"],
-                        "company_id" => $data->data[0]["company_id"]
-                    ];
-                    $_SESSION["user"] = $sessionUserInfo;
-                    return true;
+
+
+        public function registerCompany() {
+            if(isset($_POST["btnSubmit"])) {
+                $username = $_POST['username'];
+                $password = $_POST['password']; 
+                $fullname = $_POST['fullname'];  
+                $company_name = $_POST['company_name']; 
+                // lưu dữ liệu khi error
+                $sessionRegister = [
+                    "username" => $username,
+                    "password" => $password,
+                    "fullname" => $fullname,
+                    "company_name" => $company_name
+                ];
+                $_SESSION["session_registerCompany"] = $sessionRegister;
+                // Kiểm tra rỗng
+                if(empty($username) || empty($password) || empty($fullname) || empty($company_name)) {
+                    $_SESSION["error_registerCompany"] = "Hãy điền đầy đủ thông tin";
                 }
                 else {
-                    return false;
+                    // Sử dụng hàm registerUser từ class User để đăng ký người dùng mới
+                    $checkUsernameExist =  $this->userModel->getUserByUsername($username);
+                    if($checkUsernameExist->isSuccess) {
+                        $_SESSION["error_registerCompany"] = $checkUsernameExist->message;
+                    }
+                    else {            
+                        // Kiểm tra kết quả đăng ký công ty
+                        $checkCompanyExist = $this->companyModel->registerCompany($company_name);
+                        if ($checkCompanyExist->isSuccess) {
+                            // đăng kí user mới là lấy id user mới cập nhật master id cho công ty mới tạo
+                            $masterUserId = $this->userModel->registerUser($username, $password, $fullname, $checkCompanyExist->data, 1);
+                            $this->companyModel->save("company", [
+                                "id" => $checkCompanyExist->data,
+                                "master_user_id" => $masterUserId->data
+                            ]);
+                            // dãn qua login
+                            header("Location: login/{$masterUserId->message}");
+                            unset($_SESSION["error_registerCompany"]);
+                            exit;
+                        } else {
+                            $_SESSION["error_registerCompany"] = $checkCompanyExist->message;
+                        }
+                    }
                 }
             }
+            $this->loadView('frontend.authenciation.companyRegister');
         }
-    }
-
 }
