@@ -5,6 +5,7 @@ class UserController extends BaseController
     private $userModel;
     private $companyModel;
     private $roleModel;
+    private $orderModel;
     public function __construct()
     {
         $this->loadModel('UserModel');
@@ -95,5 +96,5 @@ class UserController extends BaseController
             echo "Failed to decode JSON data";
         }
     }
-
+    
 }

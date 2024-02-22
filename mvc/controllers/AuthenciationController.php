@@ -142,12 +142,9 @@ class AuthenciationController extends BaseController
                 else if ($time > $expiresTime) {
                     echo "Mã quá hạn, vui lòng thử lại mã khác";
                 }
-                else {
-                    echo "Sai mã xác thực, vui lòng nhập lại";
-                }
             }
             else {
-                echo "Vui lòng nhập mã xác thực";
+                echo "Sai mã xác thực, vui lòng nhập lại";
             }
         }
         $this->loadView('frontend.authenciation.verifyemail');

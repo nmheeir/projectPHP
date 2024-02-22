@@ -1,5 +1,5 @@
 
-
+<!-- master layout -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +83,7 @@
                                 <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product 1111</span> 4</a>
                             </li>
                         </ul>
                     </li>
