@@ -18,7 +18,7 @@ function sendMail($recipient, $subject, $message) {
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
 
-    $mail->setFrom('nmh7624@gmail.com', 'OrderManagerWebsite');
+    $mail->setFrom('nmh7624@gmail.com', 'Order Manager Website');
     $mail->addAddress($recipient);
     $mail->isHTML(true);
 
